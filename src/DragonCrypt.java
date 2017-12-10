@@ -1,3 +1,5 @@
+import java.io.UnsupportedEncodingException;
+
 public class DragonCrypt {
     public DragonCrypt(){}
 
@@ -41,6 +43,115 @@ public class DragonCrypt {
             }
         }
         throw new DragonCryptException();
+    }
+
+    //Encodes input via logical AND
+    public byte[] logicalAND(String source, String key){
+        int j = 0;
+        byte[] so = toBinary(source);
+        byte[] ke = toBinary(key);
+        byte[] ou = new byte[so.length];
+        for(int i = 0; i < source.length(); i++){
+            if(j == key.length()){
+                j = 0;
+            }
+            ou[i] =(byte) (so[i] & ke[j]);
+            j++;
+        }
+        return ou;
+    }
+
+    //Encodes input via logical OR
+    public byte[] logicalOR(String source, String key){
+        int j = 0;
+        byte[] so = toBinary(source);
+        byte[] ke = toBinary(key);
+        byte[] ou = new byte[so.length];
+        for(int i = 0; i < source.length(); i++){
+            if(j == key.length()){
+                j = 0;
+            }
+            ou[i] =(byte) (so[i] | ke[j]);
+            j++;
+        }
+        return ou;
+    }
+
+    //Encodes input via logical XOR
+    public byte[] logicalXOR(String source, String key){
+        int j = 0;
+        byte[] so = toBinary(source);
+        byte[] ke = toBinary(key);
+        byte[] ou = new byte[so.length];
+        for(int i = 0; i < source.length(); i++){
+            if(j == key.length()){
+                j = 0;
+            }
+            ou[i] =(byte) (so[i] ^ ke[j]);
+            j++;
+        }
+        return ou;
+    }
+
+    //Converts an int to binary
+    public String toBinary(int source){
+        return Integer.toBinaryString(source);
+    }
+
+    //Converts an String to binary
+    public byte[] toBinary(String source){
+        byte[] bytes = new byte[source.length()];
+
+        for(int i = 0; i > bytes.length; i++){
+            bytes[i] = (byte) source.charAt(i);
+        }
+        try {
+            return source.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //Converts an int to hex
+    public String toHex(int source){
+        return Integer.toHexString(source);
+    }
+
+    //Converts an String to hex
+    public String toHex(String source){
+        String end = "";
+
+        for(char c:source.toCharArray()){
+            end += Integer.toHexString((int) c);
+        }
+        return end;
+    }
+
+    //Converts an int to octal
+    public String toOctal(int source){
+        return Integer.toOctalString(source);
+    }
+
+    //Converts an String to octal
+    public String toOctal(String source){
+        String end = "";
+
+        for(char c:source.toCharArray()){
+            end += Integer.toOctalString((int) c);
+        }
+        return end;
+    }
+
+    //---------------------------------Presentation-----------------------------------------------
+    //Moves bite[] to string
+    public String byteArrayToString(byte[] bytes){
+        String end = "";
+
+        for(byte b:bytes){
+            end += Integer.toBinaryString(b) + " ";
+        }
+        return end.trim();
     }
 
     //---------------------------------Exceptions-------------------------------------------------
